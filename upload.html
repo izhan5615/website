@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Upload File</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload File</h1>
+        <form id="uploadForm"  enctype="multipart/form-data">
+            <input type="file" name="image" id="uploadFile">
+            <input type="submit" value="upload">
+        </form>
+    </div>
+    <script>
+$(document).ready(function() {
+    $("#uploadForm").submit(function() {
+        var data = new FormData($('#uploadForm')[0]);
+        $.ajax({
+            url:'http://localhost:5000/upload',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function(res){
+                alert(res);
+            },
+            error: function(){
+                alert('Error: In sending the request!');
+            }
+        })
+    });
+});
+
+</script>
+</body>
+</html>

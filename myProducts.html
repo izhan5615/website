@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>20F-0232_20F-0141</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- BS Stepper -->
+  <link rel="stylesheet" href="plugins/bs-stepper/css/bs-stepper.min.css">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <style>
+    .product-card {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      background-color: #f3f2f2;
+      color: #333333;
+      overflow: hidden;
+    }
+
+    .product-card:before,
+    .product-card:after {
+      content: "";
+      position: absolute;
+      background-color: #fd9c0b;
+      /* Circle color */
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    .circle {
+      content: "";
+      position: absolute;
+      background-color: #fd9c0b;
+      /* Circle color */
+      border-radius: 50%;
+      transition: transform 3s ease;
+      z-index: 2;
+    }
+
+    .product-card:before {
+      top: -50px;
+      left: -50px;
+      width: 100px;
+      height: 100px;
+    }
+
+    .product-card:after {
+      bottom: -50px;
+      right: -50px;
+      width: 100px;
+      height: 100px;
+    }
+
+    .circle-1 {
+      top: 30px;
+      left: 40px;
+      width: 80px;
+      height: 80px;
+
+    }
+
+    .circle-2 {
+      top: 120px;
+      right: 60px;
+      width: 60px;
+      height: 60px;
+
+    }
+
+    .circle-3 {
+      bottom: 80px;
+      left: 100px;
+      width: 40px;
+      height: 40px;
+
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card:hover .circle {
+      transform: scale(9);
+    }
+
+    .product-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      position: relative;
+      z-index: 3;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image {
+      transform: translateY(-10px);
+    }
+
+    .product-title {
+      position: relative;
+      margin-top: 10px;
+      font-size: 20px;
+      z-index: 6;
+    }
+
+    .product-price {
+      position: relative;
+      margin-top: 8px;
+      font-size: 18px;
+      color: #666666;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 6;
+    }
+
+    .add-to-cart-button {
+      position: relative;
+      margin-top: 12px;
+      padding: 8px 16px;
+      background-color: #4c6ef5;
+      /* Button color */
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    .product-card:hover .product-price,
+    .product-card:hover .add-to-cart-button {
+      opacity: 1;
+    }
+
+    .add-to-cart-button:hover {
+      background-color: #3355ff;
+      /* Button hover color */
+    }
+
+    aside {
+      background: linear-gradient(to bottom, #00626e, #00626e);
+    }
+  </style>
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+
+    <!-- /.navbar -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="images/user.png" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="#" id="name-sidebar" class="d-block"></a>
+          </div>
+        </div>
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+          <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-sidebar">
+                <i class="fas fa-search fa-fw"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item">
+              <a href="addProduct.html" class="nav-link">
+                <i class="nav-icon fas fa-plus-square"></i>
+                <p>
+                  Add Product
+                </p>
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+              <a href="myProducts.html" class="nav-link">
+                <i class="nav-icon fas fa-store-alt"></i>
+                <p>
+                  My Products
+                </p>
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+              <a href="dashboard.html" class="nav-link">
+                <i class="nav-icon fas fa-list-alt"></i>
+                <p>
+                  My Orders
+                </p>
+              </a>
+
+            </li>
+
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 id="nameHeader">Welcome Mr/Mrs. </h1>
+            </div>
+
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+
+      <body class="hold-transition sidebar-mini">
+
+
+
+        <div class='container'>
+          <div id="cont" class='row justify-content-center'>
+
+          </div>
+        </div>
+
+
+
+
+
+        <!-- jQuery -->
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Select2 -->
+        <script src="plugins/select2/js/select2.full.min.js"></script>
+        <!-- Bootstrap4 Duallistbox -->
+        <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+        <!-- InputMask -->
+        <script src="plugins/moment/moment.min.js"></script>
+        <script src="plugins/inputmask/jquery.inputmask.min.js"></script>
+        <!-- date-range-picker -->
+        <script src="plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- bootstrap color picker -->
+        <script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Bootstrap Switch -->
+        <script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+        <!-- BS-Stepper -->
+        <script src="plugins/bs-stepper/js/bs-stepper.min.js"></script>
+        <!-- dropzonejs -->
+        <script src="plugins/dropzone/min/dropzone.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="dist/js/demo.js"></script>
+        <!-- Page specific script -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- jquery-validation -->
+        <script src="plugins/jquery-validation/jquery.validate.min.js"></script>
+        <script src="plugins/jquery-validation/additional-methods.min.js"></script>
+        <script src="plugins/summernote/summernote-bs4.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>
+        <script>
+          $("#name-sidebar").append(sessionStorage.getItem("name"));
+          $("#nameHeader").append(sessionStorage.getItem("name"));
+
+
+          $(document).ready(function () {
+
+            getProduct();
+          });
+
+
+
+          function getProduct() {
+            var title;
+            var supplier = sessionStorage.getItem("supplierId");
+            var price;
+            var data = { supplier: supplier };
+
+            let post = JSON.stringify(data);
+            $.ajax({
+              url: 'http://localhost:4000/getproduct',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              type: 'POST',
+              contentType: 'application/json',
+              data: post,
+              success: function (results) {
+
+                var cont = document.getElementById("cont");
+                var count = 1;
+
+                results.forEach(function (obj) {
+
+
+                  title = "<div class='col-4 p-5'> <div class='product-card'><div class='circle circle-1'></div><div class='circle circle-2'></div><div class='circle circle-3'></div>";
+
+                  title += " <img src='upload/" + obj.image + "' class='product-image'>";
+
+                  title += "<h3 class='product-title'>" + obj.title + "</h3>";
+
+                  title += " <p class='product-price'><b>Rs" + obj.price + "</b></p>";
+
+                  title += " <button id = editbtn-" + obj.id + " class='add-to-cart-button'>Edit</button> <button id = deletebtn-" + obj.id + " class='add-to-cart-button'>Delete</button></div>";
+
+                  cont.innerHTML += title;
+
+
+                });
+
+
+              },
+              error: function () {
+                alert('error');
+              }
+            });
+
+
+          }
+        </script>
+      </body>
+
+</html>

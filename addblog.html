@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KUC</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+
+  <!-- summernote -->
+  <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+
+    <!-- /.navbar -->
+
+    <!-- Loading Modal -->
+
+    <div class="modal fade" id="loadingmodal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+      </div>
+    </div>
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Create a new Blog</h1>
+            </div>
+
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- left column -->
+
+            <div class="col-md-10 offset-1" id="div1">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Blog Contents</h3>
+                </div>
+
+
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form>
+                  <div class="card-body">
+
+
+                    <div>
+
+                      <div class="form-group">
+                        <label for="cmp_name">Blog Title</label>
+                        <input type="text" class="form-control" id="b_title" placeholder="Enter Text">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <textarea rows="4" class="form-control" id="b_description" placeholder="Enter Text"></textarea>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <button type="button" onclick="add_blog();" class="btn btn-primary"
+                      style="float:right;">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+            </div>
+            <!--/.col (right) -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+
+
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- jquery-validation -->
+  <script src="plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="plugins/jquery-validation/additional-methods.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="dist/js/adminlte.min.js"></script>
+
+  <!-- Summernote -->
+  <script src="plugins/summernote/summernote-bs4.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
+
+  <!-- Page specific script -->
+  <script>
+
+    $('#loadingmodal').modal('show');
+
+    $(document).ready(function () {
+
+      $(function () {
+        // Summernote
+        $('#b_description').summernote()
+      });
+
+
+
+
+
+      setTimeout(function () {
+        $('#loadingmodal').modal('hide');
+      }, 500);
+
+
+    });
+
+
+
+
+    function add_blog() {
+      var title = $("#b_title").val();
+      var desc = $('#b_description').summernote('code');
+
+      var data = { blog_title: title, blog_description: desc };
+
+      let post = JSON.stringify(data);
+
+      console.log(post);
+
+      $.ajax({
+        url: 'http://localhost:4000/insertblog',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        type: 'POST',
+        contentType: 'application/json',
+        data: post,
+        success: function () {
+
+          alert("Data Inserted");
+
+        },
+        error: function () {
+          alert('error');
+        }
+      });
+
+
+    }
+
+    getblog();
+
+    function getblog() {
+
+      alert("Hello blog");
+
+      $.ajax({
+        url: 'http://localhost:4000/getblogbyid',
+        headers: {
+
+          'Content-Type': 'application/json'
+        },
+        type: "GET",
+
+        success: function (result) {
+
+          //console.log(result[0].id);
+          //console.log(result[0].blog_description);
+
+
+          $("#b_title").val(result[0].blog_title);
+          //$('#b_description').innerText(result[0].blog_description);
+          $("#b_description").summernote('code', result[0].blog_description);
+
+
+
+
+
+        }
+      });
+
+    }
+
+
+  </script>
+</body>
+
+</html>
